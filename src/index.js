@@ -129,6 +129,136 @@ class Root2 extends React.Component{
 
 ReactDom.render(<Root2 />,document.getElementById('toggle'))
 
+// 组件的生命周期
+// 组件的生命周期可分成三个状态
+// Mounting : 已经插入真实的DOM
+// Updating : 正在被重新渲染
+// Unmounting : 已经移除真实的DOM
+// 组件的生命周期状态，说明在不同的时机访问组件，组件正处在生命周期的不同状态
+// 在不同的生命周期状态访问，就产生不同的方法
+// 生命周期的方法如下：
+// 装载组件触发
+// componentWillMount 在渲染前调用，在客户端也在服务端，只会在装载之前调用一次
+// componentDidMount : 在第一次渲染后调用，只在客户端，之后组件已经生成了对应的Dom树，可以通过this.getDOMNode()来进行访问，如果你想和其他的JavaScript
+// 构架一起使用，可以在这个方法中调用setTimeout,setInterval或者发送Ajax请求等操作防止异步操作阻塞UI ,只在装载完成后市用一次，render 之后
+// componentWillReceivePropes(nextProps) 在组件接收到一个新的prop时被调用，这个应该就地在初始化render时不会被调用.
+// shouldComponeeeeentUpdate(nextProps,nextState)返回一个布尔值，在组件 接收到新的props或者state时被调用，在初始化或者使用forceUpdate时不被调用
+//  可以在你确认不需要更新的组件 使用
+// 
+
+
+console.log('-------------------------------------生命周期---------------------------------------');
+
+
+class Sub3 extends React.Component{
+    constructor(props){
+        console.log('Sub contructor ---------------------1111');
+        super(props);
+        this.state={count:0};
+    }
+    handleClick(event){
+        this.setState ({count:this.state.count + 1 });
+    }
+    render(){
+        console.log('Sub render 00000000000');
+        return (<div id='sub3' style={{color:'red',}}  onClick={this.handleClick.bind(this)}>
+            Sub count={this.state.count};
+        </div>);
+    }
+
+    componentWillMount(){
+        // constructor 之后，第一次render之前 
+        console.log('Sub componentWillMount  11111111 ');
+    }
+
+    componentDidMount(){
+        // 第一次render 之后
+        console.log('sub componentDidMount     222222222');
+    }
+
+    componentWillUnmount(){
+        // 清理工作
+        console.log('sub componentWillUnmount 33333333333');
+    }
+
+    componentWillReceiveProps(nextProps){
+        // props变更时，接到新的props了，交给shouldComponentUpdate.
+        // props 组件内只读，只能从外部改变
+        console.log(this.props);
+        console.log(nextProps);
+        console.log(' Sub componentWillReceiveProps 66666666666',this.state.count);
+    }
+
+    shouldComponentUpdate(nextProps,nextState){
+        // 是不是组件更新，props或者state 方法惊变时，返回布尔值，true 才会更新
+        console.log('Sub shouldComponentUpdate 77777777777777777',this.state.count,nextState);
+        return true;
+    }
+
+    componentWillUpdate(nextProps,nextState){
+        //同意更新后，真正的更新前，之后调用render 
+        console.log('Sub componentWillUpdate 888888888888888',this.state.count,nextState);
+    }
+
+    componentDidUpdate(prevProps,prevState){
+        // 同意更新后，真正更新后，在render 之后调用
+        console.log('Sub componentDidUpdate 99999999999',this.state.count,prevState);
+    }
 
 
 
+}
+
+
+const Sub4 = props => <div>sub4 !!!!!{props.name} </div>
+
+
+class Root3 extends React.Component{
+    constructor(props){
+        console.log('Root Constructor  444444444444');
+        super(props);       //调用父类构造器
+        this.state = {flag:true,name:'root'};
+    }
+
+    handleClick(event){
+        this.setState({
+            flag: !this.state.flag,
+            name: this.state.flag ? this.state.name.toLowerCase():this.state.name.toUpperCase(),
+        });
+    }
+    render(){
+        return (<div id='root3' onClick={this.handleClick.bind(this)} > 
+            my Name is {this.state.name}
+            <Sub3 />
+
+            <Sub4 />
+        </div>)
+    }
+}
+
+ReactDom.render(<Root3 />,document.getElementById('root3'));
+
+
+
+/* let Wrapper = Component =>  props => 
+           ( <div>
+            {props.schoolName}
+            <hr />
+            <Component {...props} /> 
+        </div>); */
+
+let Wrapper = Component =>  props => 
+           ( <div>
+            {props.schoolName}
+            <hr />
+            <Component {...{schoolName:'magedu.com',test:'test------------'}} /> 
+        </div>);
+        
+@Wrapper
+class Root5 extends React.Component{
+    render(){
+        return <div>old Root5 {this.props.schoolName} + {this.props.test} </div>
+    }
+}
+
+ReactDom.render(<Root5 schoolName='test5' />,document.getElementById('root5'));
