@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { EnvironmentPlugin } from 'webpack';
 // 组件类定义，从React.componet 类上继承，
 class Sub extends React.Component{
     state = {count:0}
@@ -13,7 +12,7 @@ class Sub extends React.Component{
         this.setState({count:this.state.count + 1 });
     }
     render(){
-        return <button id='sub' onClick={this.clickHandler.bind(this)}>
+        return <button id='sub'  onClick={this.clickHandler.bind(this)}>
             i am sub elment {this.state.count} </button>
     }
 }
