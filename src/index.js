@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import { EnvironmentPlugin } from 'webpack';
 // 组件类定义，从React.componet 类上继承，
 class Sub extends React.Component{
     state = {count:0}
     clickHandler(event){
+        //event.preventDefault(); 这个用来阻止浏览器跳转行为
         console.log(event.target); //打印目标对象
         console.log(event.target.id); // 打印目标对象的id
         console.log(this);
@@ -32,7 +34,7 @@ class Root extends React.Component{
 class Root1 extends React.Component{
     state = {domain:'www.baidu',p1:'.com'};
     render(){ 
-        //this.setState({p1:'.io'}); // 这个会报错
+        //this.setState({p1:'.io'}); // 这个会报错,  这个不会因为，
         //this.state.p1 = '.io';
         //setTimeout(() => {
         //    this.setState({p1:'.io'});
@@ -63,7 +65,9 @@ ReactDom.render(<Root1 />,document.getElementById('root'));// 对于单个
 // 如果状态变化了，会触发UI的重新渲染，使用setState()方法可以修改state的值
 // 注意，state是组件的内部使用的，是组件私有的属性，其他的组件是无法调用的
 
-
+// React 事件，定义和用法，
+// 不能使用return false,如果要阻止事件默认的行为，使用event.preventDefault();
+// 每一个React组件 都有一个状态变量state ,
 
 
 
