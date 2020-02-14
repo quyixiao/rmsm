@@ -10,6 +10,7 @@ class Sub extends React.Component{
         console.log(this);
         //this.state.count ++;这种方式不可以
         this.setState({count:this.state.count + 1 });
+        
     }
     render(){
         return <button id='sub'  onClick={this.clickHandler.bind(this)}>
@@ -67,13 +68,66 @@ ReactDom.render(<Root1 />,document.getElementById('root'));// 对于单个
 // React 事件，定义和用法，
 // 不能使用return false,如果要阻止事件默认的行为，使用event.preventDefault();
 // 每一个React组件 都有一个状态变量state ,
+// React 是Facebook开发并开源的前端框架
+// 当时他们的团队在市面上找到合适的MVC 构架，就自己写了一个JS框架，用来假设大名鼎鼎的Instagram 图片分享社交网络，2013年react开源
+// React 解决是是前端 MVC框架中的View 视图层的问题
+// 
+
+class Toggle extends React.Component{
+    //state = {flag:true};// 类定义state
+    constructor(props){
+        super(props);
+        console.log(111111111111111,props);
+        console.log(222222222222222,this.props);
+        console.log(333333333333333,this.props === props);
+        this.state = {flag:true}
+    }
+    clickHandler(event){
+      console.log(event.target.id);
+      console.log(event.target);
+      console.log(this);
+      // this.props.school = xxx ;  // 这里是不允许重复赋值的，
+      // 
+
+
+    }
+
+    render(){
+        return (<div style={{color:'red',height:200 + 'px',
+        backgroundColor:'#fffofo'}} id="t1" onClick={this.clickHandler.bind(this)}>
+        点一下这一句话  {this.state.flag.toString()}  | 
+        {this.props.school} {this.props.parent.state.p1}  {this.props.parent.state.p2}
+        <br />
+        {this.props.children}
+        <br />
+
+    </div>);
+
+    }
+
+}
+
+
+class Root2 extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {p1 : 'www.magedu',p2:'.com'};
+    }
+    render(){
+        return (<div>
+            <div>welcome to111111111111111111 {this.state.p1}{this.state.p2} </div>
+            <br />
+            <Toggle school='magedu.com' parent={this} >
+                <a href="http://www.baidu.com">马哥教育</a>
+            </Toggle>
+        </div>)
+    }
+}
 
 
 
 
-
-
-
+ReactDom.render(<Root2 />,document.getElementById('toggle'))
 
 
 
