@@ -247,14 +247,14 @@ ReactDom.render(<Root3 />,document.getElementById('root3'));
             <Component {...props} /> 
         </div>); */
 
-let Wrapper = Component =>  props => 
-           ( <div>
-            {props.schoolName}
+let Wrapper = id=> Component =>  props => 
+           ( <div id={id}>
+            {props.schoolName}{id}
             <hr />
-            <Component {...{schoolName:'magedu.com',test:'test------------'}} /> 
+            <Component {...{schoolName:'magedu.com',test:'test------------'}} test1="test1" /> 
         </div>);
-        
-@Wrapper
+
+@Wrapper('newroot')
 class Root5 extends React.Component{
     render(){
         return <div>old Root5 {this.props.schoolName} + {this.props.test} </div>
